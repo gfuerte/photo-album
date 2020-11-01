@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Text layoutX="103.0" layoutY="141.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Username: " />
+      <Text layoutX="107.0" layoutY="245.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password:" />
+      <TextField layoutX="208.0" layoutY="124.0" />
+      <TextField layoutX="208.0" layoutY="228.0" />
+   </children>
+</AnchorPane>
