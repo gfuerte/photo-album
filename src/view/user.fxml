@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
+
+<!-- * Project by Greg Fuerte & Aries Regalado -->
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.UserController">
+   <children>
+      <Text layoutX="14.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="User Page" />
+      <Button fx:id="logout" layoutX="527.0" layoutY="18.0" mnemonicParsing="false" onAction="#logout" text="Log Out" />
+      <ListView fx:id="listView" layoutX="14.0" layoutY="56.0" prefHeight="319.0" prefWidth="572.0" />
+   </children>
+</AnchorPane>

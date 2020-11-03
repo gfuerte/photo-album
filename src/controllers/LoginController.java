@@ -20,16 +20,25 @@ public class LoginController {
 	
 	@FXML
 	private void login(ActionEvent event) throws IOException {
-		System.out.println("Username is: " + username.getText());
-		System.out.println("Password is: " + password.getText());
+		//System.out.println("Username is: " + username.getText());
+		//System.out.println("Password is: " + password.getText());
 				
 		if(username.getText().equals("admin")) {
-			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/admin.fxml"));
-			Parent sceneManager = (Parent) fxmlLoader.load();
-			Scene adminScene = new Scene(sceneManager);
-			Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-			appStage.setScene(adminScene);
-			appStage.show();
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/admin.fxml"));
+			Parent parent = (Parent) loader.load();
+			Scene scene = new Scene(parent);
+			Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+			stage.setScene(scene);
+			stage.show();
+		} else {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/user.fxml"));
+			Parent parent = (Parent) loader.load();
+			UserController controller = loader.getController();
+			Scene scene = new Scene(parent);
+			Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();	
+			controller.start(stage);
+			stage.setScene(scene);
+			stage.show();
 		}
 	}
 	
