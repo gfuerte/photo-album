@@ -1,7 +1,10 @@
 package controllers;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
 
+import app.Photos;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -11,6 +14,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import models.User;
 
 public class LoginController {
 	@FXML
@@ -18,11 +22,11 @@ public class LoginController {
 	@FXML
 	private TextField username, password;
 	
+	List<User> userList = Photos.userList;
+	HashMap<String, User> userMap = Photos.userMap;
+	
 	@FXML
-	private void login(ActionEvent event) throws IOException {
-		//System.out.println("Username is: " + username.getText());
-		//System.out.println("Password is: " + password.getText());
-				
+	private void login(ActionEvent event) throws IOException {		
 		if(username.getText().equals("admin")) {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/admin.fxml"));
 			Parent parent = (Parent) loader.load();
