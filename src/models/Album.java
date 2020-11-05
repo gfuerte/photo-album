@@ -18,7 +18,7 @@ public class Album implements Serializable {
 	}
 
 	public String getAlbumName() {
-		return name;
+		return this.name;
 	}
 
 	public void setName(String name) {

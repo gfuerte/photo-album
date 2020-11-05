@@ -38,8 +38,8 @@ public class User implements Serializable, Comparable<User> {
 	}
 	
 	public void deleteAlbum(String name) {
-		for(Album album : albums) {
-			if(album.getAlbumName().equals(name)) albums.remove(album);
+		for(int i = 0; i < albums.size(); i++) {
+			if(albums.get(i).getAlbumName().equals(name)) albums.remove(i);
 		}
 	}
 	
