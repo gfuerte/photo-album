@@ -20,20 +20,22 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import models.Album;
+import models.User;
 
 public class UserController {
 	@FXML
-	Button logout;
+	Button logout, search, addAlbum, deleteAlbum, renameAlbum;
+	@FXML
+	Text header;
 	@FXML
 	ListView<Album> listView;
 	
+	private User user;
 	private ObservableList<Album> albums;
 	
-	public void start(Stage mainStage) {
-		//System.out.println("Test");
-		List<Album> list = new ArrayList<>();
-		list.add(new Album("Test Album 1", 5));
-		list.add(new Album("Test Album2", 10));
+	public void start(Stage mainStage) {		
+		header.setText(user.getUsername() + "'s Albums");
+		List<Album> list = user.getAlbums();
 		albums = FXCollections.observableArrayList(list);
 		
 		listView.setCellFactory(new Callback<ListView<Album>, ListCell<Album>>() {
@@ -44,7 +46,28 @@ public class UserController {
 		});
 		
 		listView.setItems(albums);
+		listView.getSelectionModel().select(0);
+	}
+	
+	@FXML
+	private void search(ActionEvent event) throws IOException {
+		System.out.println("search");
+	}
+	
+	@FXML
+	private void addAlbum(ActionEvent event) throws IOException {
+		System.out.println("add");
 		
+	}
+	
+	@FXML
+	private void deleteAlbum(ActionEvent event) throws IOException {
+		System.out.println("delete");
+	}
+	
+	@FXML
+	private void renameAlbum(ActionEvent event) throws IOException {
+		System.out.println("rename");
 	}
 	
 	@FXML
@@ -76,14 +99,17 @@ public class UserController {
 		@Override
 	    public void updateItem(Album album, boolean empty) {
 	        super.updateItem(album, empty);
-	        setText(null);
 			if(album == null) {
 				name.setText("");
 				num.setText("");
 			} else {
-				name.setText(album.getName());
-				num.setText(Integer.toString(album.getNumPhotos()));
+				name.setText(album.getAlbumName());
+				num.setText(Integer.toString(album.getPhotoCount()));
 			}
 		}
+	}
+	
+	public void setUser(User user) {
+		this.user = user;
 	}
 }

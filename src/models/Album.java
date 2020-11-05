@@ -1,27 +1,43 @@
 package models;
 
-public class Album {
-	private String name;
-	private int numPhotos;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+public class Album implements Serializable {
+	private static final long serialVersionUID = 1L;
 	
-	public Album(String name, int numPhotos) {
+	private String name;
+	private List<Photo> photos;
+	private int photoCount;
+	
+	public Album(String name) {
 		this.name = name;
-		this.numPhotos = numPhotos;
+		this.photos = new ArrayList<Photo>();
+		this.photoCount = 0;
 	}
 
-	public String getName() {
+	public String getAlbumName() {
 		return name;
 	}
 
 	public void setName(String name) {
 		this.name = name;
 	}
-
-	public int getNumPhotos() {
-		return numPhotos;
+	
+	public void addPhoto(Photo photo) {
+		this.photos.add(photo);
+	}
+	
+	public void removePhoto(Photo photo) {
+		photos.remove(photo);
 	}
 
-	public void setNumPhotos(int numPhotos) {
-		this.numPhotos = numPhotos;
+	public int getPhotoCount() {
+		return photoCount;
+	}
+
+	public void setPhotoCount(int photoCount) {
+		this.photoCount = photoCount;
 	}
 }

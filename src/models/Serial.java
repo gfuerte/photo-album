@@ -17,7 +17,6 @@ public class Serial implements Serializable {
 	public static final String storeFile = "data.dat";
 
 	private List<User> users;
-	private HashMap<String, User> map;
 
 	public Serial() {
 		this.users = new ArrayList<>();

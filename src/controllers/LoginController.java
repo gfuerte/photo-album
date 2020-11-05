@@ -34,15 +34,22 @@ public class LoginController {
 			Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 			stage.setScene(scene);
 			stage.show();
-		} else {
+		} else if(userMap.get(username.getText()) != null){
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/user.fxml"));
 			Parent parent = (Parent) loader.load();
+			
 			UserController controller = loader.getController();
+			controller.setUser(userMap.get(username.getText()));
+			
 			Scene scene = new Scene(parent);
 			Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();	
+			
 			controller.start(stage);
+			
 			stage.setScene(scene);
 			stage.show();
+		} else {
+			System.out.println("User doesn't exist");
 		}
 	}
 	

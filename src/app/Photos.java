@@ -25,14 +25,14 @@ public class Photos extends Application {
 		
 		/* Initializes Serial, don't uncomment unless data.dat is corrupted or want to delete all data in data.dat
 		Serial serial = new Serial();
-		Serial.serialize(serial);			
-		System.out.println(serial);
-		*/
+		Serial.serialize(serial);	
+		*/		
+		
 		
 		Serial serial = Serial.deserialize();
 		userList = serial.getUserList();
 		for(User user : userList) userMap.put(user.getUsername(), user);
-		
+				
 		System.out.println("--All Users--");
 		for(User user : userList) System.out.println("Username: " + user.getUsername() + "\t\tPassword: " + user.getPassword());
 		
@@ -49,6 +49,7 @@ public class Photos extends Application {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
 		
 		mainStage.setOnCloseRequest(event -> {
 			try {
