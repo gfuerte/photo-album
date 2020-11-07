@@ -4,6 +4,11 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.scene.image.Image;
+import javafx.scene.image.PixelReader;
+import javafx.scene.image.PixelWriter;
+import javafx.scene.image.WritableImage;
+
 public class Photo implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
@@ -11,10 +16,35 @@ public class Photo implements Serializable {
 	private String caption;
 	private List<Tag> tags;
 	
-	public Photo(String photoName) {
+	private int width, height;
+    private int[][] data;
+	
+	public Photo(Image image, String photoName) {
 		this.photoName = photoName;
 		this.caption = "";
 		this.tags = new ArrayList<Tag>();
+		
+		width = ((int) image.getWidth());
+        height = ((int) image.getHeight());
+        data = new int[width][height];
+
+        PixelReader reader = image.getPixelReader();
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                data[i][j] = reader.getArgb(i, j);
+            }
+        }
+	}
+	
+	public Image getImage() {
+		WritableImage image = new WritableImage(width, height);
+        PixelWriter writer = image.getPixelWriter();
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+            	writer.setArgb(i, j, data[i][j]);
+            }
+        }
+        return image;
 	}
 
 	public String getPhotoName() {

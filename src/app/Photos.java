@@ -23,10 +23,12 @@ public class Photos extends Application {
 		// TODO Auto-generated method stub
 		mainStage = primaryStage;
 		
-		/* Initializes Serial, don't uncomment unless data.dat is corrupted or want to delete all data in data.dat
+		/* 
 		Serial serial = new Serial();
-		Serial.serialize(serial);	
-		*/		
+		serial.getUserList().add(new User("stock", ""));
+		serial.getUserList().add(new User("admin", ""));
+		Serial.serialize(serial);		
+		 */
 		
 		
 		Serial serial = Serial.deserialize();

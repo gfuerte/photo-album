@@ -1,5 +1,6 @@
 package controllers;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
@@ -18,9 +19,13 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import models.Album;
@@ -39,7 +44,9 @@ public class AlbumController {
 	private Album album;
 	private ObservableList<Photo> photos;
 	
+	Stage stage;
 	public void start(Stage mainStage) {
+		stage = mainStage;
 		header.setText(album.getAlbumName());
 		List<Photo> list = album.getPhotos();
 		photos = FXCollections.observableArrayList(list);
@@ -53,11 +60,24 @@ public class AlbumController {
 		
 		listView.setItems(photos);
 		listView.getSelectionModel().select(0);
+		
 	}
 	
 	@FXML
 	private void addPhoto(ActionEvent event) throws IOException {
-		System.out.println("add");
+		FileChooser chooser = new FileChooser();
+		chooser.setTitle("Add Photo");
+		chooser.getExtensionFilters().addAll( new ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif"));
+		File file = chooser.showOpenDialog(stage);	
+		if(file == null) return;
+		
+		String photoName = file.getName();
+		Image image = new Image(file.toURI().toString());
+		
+		Photo photo = new Photo(image, photoName);
+		album.addPhoto(photo);
+		photos.add(photo);
+		listView.getSelectionModel().selectLast();
 	}
 	
 	@FXML
@@ -118,14 +138,26 @@ public class AlbumController {
 	private class PhotoCell extends ListCell<Photo> {
 		AnchorPane root = new AnchorPane();
 		Text photoName = new Text();
+		ImageView image = new ImageView();
+		Button view = new Button("View");
 
 		public PhotoCell() {
 			super();
-			AnchorPane.setLeftAnchor(photoName, 75.0);
-			AnchorPane.setTopAnchor(photoName, 17.5);
+			AnchorPane.setLeftAnchor(photoName, 150.0);
+			AnchorPane.setTopAnchor(photoName, 30.0);
+			
+			AnchorPane.setLeftAnchor(image, 0.0);
+			AnchorPane.setTopAnchor(image, 2.5);
+			
+			AnchorPane.setRightAnchor(view, 10.0);
+			AnchorPane.setTopAnchor(view, 27.5);
 
-			root.getChildren().addAll(photoName);
-			root.setPrefHeight(50.0);
+			image.setFitHeight(125);
+			image.setFitWidth(125);
+			image.setPreserveRatio(true);
+			
+			root.getChildren().addAll(photoName, image, view);
+			root.setPrefHeight(75.0);
 			setGraphic(root);
 		}
 
@@ -134,8 +166,32 @@ public class AlbumController {
 			super.updateItem(photo, empty);
 			if (photo == null) {
 				photoName.setText("");
+				image.setImage(null);
+				view.setVisible(false);
 			} else {
 				photoName.setText(photo.getPhotoName());
+				image.setImage(photo.getImage());
+				view.setVisible(true);
+				
+				view.setOnAction(new EventHandler<ActionEvent>() {
+					@Override public void handle(ActionEvent event) {
+						try {
+							FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/photo.fxml"));
+					        Parent parent = (Parent) loader.load();
+					        
+					        //AlbumController controller = loader.getController();
+					        //controller.setInfo(user, album);
+					        
+					        Scene scene = new Scene(parent);
+					        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+					        
+					        //controller.start(stage);
+					        
+					        stage.setScene(scene);
+					        stage.show();
+						} catch (IOException e) { e.printStackTrace(); }
+					}
+				});
 			}
 		}
 	}
