@@ -13,8 +13,8 @@
       <Button fx:id="search" layoutX="229.0" layoutY="14.0" mnemonicParsing="false" onAction="#search" text="Search" />
       <Text fx:id="header" layoutX="8.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Username's Albums" />
       <ListView fx:id="listView" layoutX="8.0" layoutY="53.0" prefHeight="393.0" prefWidth="334.0" />
-      <Button fx:id="addAlbum" layoutX="9.0" layoutY="461.0" mnemonicParsing="false" onAction="#addAlbum" text="Add Album" />
-      <Button fx:id="deleteAlbum" layoutX="87.0" layoutY="461.0" mnemonicParsing="false" onAction="#deleteAlbum" text="Delete Album" />
-      <Button fx:id="renameAlbum" layoutX="178.0" layoutY="461.0" mnemonicParsing="false" onAction="#renameAlbum" text="Rename Album" />
+      <Button fx:id="createAlbum" layoutX="9.0" layoutY="461.0" mnemonicParsing="false" onAction="#createAlbum" text="Create Album" />
+      <Button fx:id="deleteAlbum" layoutX="100.0" layoutY="461.0" mnemonicParsing="false" onAction="#deleteAlbum" text="Delete Album" />
+      <Button fx:id="renameAlbum" layoutX="191.0" layoutY="461.0" mnemonicParsing="false" onAction="#renameAlbum" text="Rename Album" />
    </children>
 </AnchorPane>

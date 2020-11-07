@@ -7,6 +7,7 @@ import java.util.Optional;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -28,18 +29,16 @@ import models.User;
 
 public class UserController {
 	@FXML
-	Button logout, search, addAlbum, deleteAlbum, renameAlbum;
+	ListView<Album> listView;
 	@FXML
 	Text header;
 	@FXML
-	ListView<Album> listView;
+	Button logout, search, createAlbum, deleteAlbum, renameAlbum;
 
 	private User user;
 	private ObservableList<Album> albums;
-	Stage stage;
 
 	public void start(Stage mainStage) {
-		stage = mainStage;
 		header.setText(user.getUsername() + "'s Albums");
 		List<Album> list = user.getAlbums();
 		albums = FXCollections.observableArrayList(list);
@@ -61,7 +60,7 @@ public class UserController {
 	}
 
 	@FXML
-	private void addAlbum(ActionEvent event) throws IOException {
+	private void createAlbum(ActionEvent event) throws IOException {
 		TextInputDialog dialog = new TextInputDialog();
 		dialog.setTitle("Add Album");
 		dialog.setContentText("Enter New Album Name:");
@@ -141,18 +140,24 @@ public class UserController {
 
 	private class AlbumCell extends ListCell<Album> {
 		AnchorPane root = new AnchorPane();
-		Text name = new Text();
-		Text num = new Text();
+		Button select = new Button("Select");
+		Text albumName = new Text();
+		Text photoCount = new Text();
 
 		public AlbumCell() {
 			super();
-			AnchorPane.setLeftAnchor(name, 100.0); // double args correspond to how far they are from the designated
-													// edge - left edge
-			AnchorPane.setTopAnchor(name, 15.0);
-			AnchorPane.setRightAnchor(num, 100.0);
-			AnchorPane.setTopAnchor(num, 15.0);
-			root.getChildren().addAll(name, num);
-			root.setPrefHeight(50.0); // height of each cell
+			AnchorPane.setLeftAnchor(albumName, 75.0); // double args correspond to how far they are from the designated edge - left edge
+			AnchorPane.setTopAnchor(albumName, 40.0);
+			
+			AnchorPane.setLeftAnchor(photoCount, 75.0);
+			AnchorPane.setTopAnchor(photoCount, 60.0);
+			
+			AnchorPane.setRightAnchor(select, 20.0);
+			AnchorPane.setTopAnchor(select, 45.0);
+			
+			
+			root.getChildren().addAll(albumName, photoCount, select);
+			root.setPrefHeight(100.0); // height of each cell
 			setGraphic(root);
 		}
 
@@ -160,11 +165,38 @@ public class UserController {
 		public void updateItem(Album album, boolean empty) {
 			super.updateItem(album, empty);
 			if (album == null) {
-				name.setText("");
-				num.setText("");
+				albumName.setText("");
+				photoCount.setText("");
+				select.setVisible(false);
 			} else {
-				name.setText(album.getAlbumName());
-				num.setText(Integer.toString(album.getPhotoCount()));
+				albumName.setText(album.getAlbumName());
+				if(album.getPhotoCount() == 1) {
+					photoCount.setText(Integer.toString(album.getPhotoCount()) + " Photo");
+				} else {
+					photoCount.setText(Integer.toString(album.getPhotoCount()) + " Photos");
+				}
+				
+				select.setVisible(true);
+				
+				select.setOnAction(new EventHandler<ActionEvent>() {
+					@Override public void handle(ActionEvent event) {
+						try {
+							FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/album.fxml"));
+					        Parent parent = (Parent) loader.load();
+					        
+					        AlbumController controller = loader.getController();
+					        controller.setInfo(user, album);
+					        
+					        Scene scene = new Scene(parent);
+					        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+					        
+					        controller.start(stage);
+					        
+					        stage.setScene(scene);
+					        stage.show();
+						} catch (IOException e) { e.printStackTrace(); }
+					}
+				});
 			}
 		}
 	}

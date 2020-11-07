@@ -8,8 +8,8 @@ public class Album implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private String name;
-	private List<Photo> photos;
 	private int photoCount;
+	private List<Photo> photos;
 	
 	public Album(String name) {
 		this.name = name;
@@ -30,7 +30,9 @@ public class Album implements Serializable {
 	}
 	
 	public void removePhoto(Photo photo) {
-		photos.remove(photo);
+		for(int i = 0; i < photos.size(); i++) {
+			if(photos.get(i).getPhotoName().equals(photo.getPhotoName())) photos.remove(i);
+		}
 	}
 
 	public int getPhotoCount() {
@@ -39,5 +41,9 @@ public class Album implements Serializable {
 
 	public void setPhotoCount(int photoCount) {
 		this.photoCount = photoCount;
+	}
+	
+	public List<Photo> getPhotos() {
+		return this.photos;
 	}
 }
