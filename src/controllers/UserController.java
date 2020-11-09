@@ -21,6 +21,8 @@ import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Callback;
@@ -69,6 +71,14 @@ public class UserController {
 		Optional<String> result = dialog.showAndWait();
 		
 		if(result.isPresent()) {
+			if(dialog.getResult().trim().length() == 0) {
+				Alert alert = new Alert(AlertType.ERROR);
+				String content = "No Name Inputted";
+				alert.setContentText(content);
+				alert.showAndWait();
+				return;
+			}
+		
 			Album album = new Album(dialog.getResult());
 			user.addAlbum(album);
 			albums.add(album);
@@ -120,6 +130,14 @@ public class UserController {
 		Optional<String> result = dialog.showAndWait();
 		
 		if(result.isPresent()) {
+			if(dialog.getResult().trim().length() == 0) {
+				Alert alert = new Alert(AlertType.ERROR);
+				String content = "No Name Inputted";
+				alert.setContentText(content);
+				alert.showAndWait();
+				return;
+			}
+			
 			int index = listView.getSelectionModel().getSelectedIndex();
 			album.setName(dialog.getResult());
 			albums.remove(index);
@@ -146,18 +164,19 @@ public class UserController {
 
 		public AlbumCell() {
 			super();
-			AnchorPane.setLeftAnchor(albumName, 75.0); // double args correspond to how far they are from the designated edge - left edge
-			AnchorPane.setTopAnchor(albumName, 40.0);
+			AnchorPane.setLeftAnchor(albumName, 15.0);
+			AnchorPane.setTopAnchor(albumName, 6.0);
 			
-			AnchorPane.setLeftAnchor(photoCount, 75.0);
-			AnchorPane.setTopAnchor(photoCount, 60.0);
+			AnchorPane.setLeftAnchor(photoCount, 145.0);
+			AnchorPane.setTopAnchor(photoCount, 4.5);
 			
-			AnchorPane.setRightAnchor(select, 20.0);
-			AnchorPane.setTopAnchor(select, 45.0);
+			AnchorPane.setRightAnchor(select, 15.0);
+			AnchorPane.setTopAnchor(select, 0.0);
 			
+			Font font = Font.font("Arial", FontWeight.BOLD, 12.0);
+			albumName.setFont(font);
 			
 			root.getChildren().addAll(albumName, photoCount, select);
-			root.setPrefHeight(100.0); // height of each cell
 			setGraphic(root);
 		}
 
@@ -169,7 +188,12 @@ public class UserController {
 				photoCount.setText("");
 				select.setVisible(false);
 			} else {
-				albumName.setText(album.getAlbumName());
+				if(album.getAlbumName().length() > 13) {
+					albumName.setText(album.getAlbumName().substring(0, 13) + "...");
+				} else {
+					albumName.setText(album.getAlbumName());
+				}
+				
 				if(album.getPhotoCount() == 1) {
 					photoCount.setText(Integer.toString(album.getPhotoCount()) + " Photo");
 				} else {

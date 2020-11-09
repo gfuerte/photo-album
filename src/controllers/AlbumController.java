@@ -19,6 +19,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.control.Alert.AlertType;
@@ -105,7 +106,17 @@ public class AlbumController {
 	
 	@FXML
 	private void captionPhoto(ActionEvent event) throws IOException {
-		System.out.println("caption");
+		Photo photo = listView.getSelectionModel().getSelectedItem();
+		TextInputDialog dialog = new TextInputDialog();
+		dialog.setTitle("Caption Photo");
+		dialog.setContentText("Caption " + photo.getPhotoName() + " : ");
+		dialog.setHeaderText(null);
+		dialog.setGraphic(null);
+		
+		Optional<String> result = dialog.showAndWait();
+		if(result.isPresent()) {
+			photo.setCaption(dialog.getResult());
+		}
 	}
 	
 	@FXML
@@ -143,21 +154,23 @@ public class AlbumController {
 
 		public PhotoCell() {
 			super();
-			AnchorPane.setLeftAnchor(photoName, 150.0);
-			AnchorPane.setTopAnchor(photoName, 30.0);
+			AnchorPane.setLeftAnchor(photoName, 60.0);
+			AnchorPane.setTopAnchor(photoName, 17.5);
 			
 			AnchorPane.setLeftAnchor(image, 0.0);
-			AnchorPane.setTopAnchor(image, 2.5);
+			AnchorPane.setTopAnchor(image, 0.0);
 			
 			AnchorPane.setRightAnchor(view, 10.0);
-			AnchorPane.setTopAnchor(view, 27.5);
+			AnchorPane.setTopAnchor(view, 14.0);
 
-			image.setFitHeight(125);
-			image.setFitWidth(125);
-			image.setPreserveRatio(true);
+			image.setFitHeight(50.0);
+			image.setFitWidth(50.0);
+
+			image.setPreserveRatio(false);
+			
 			
 			root.getChildren().addAll(photoName, image, view);
-			root.setPrefHeight(75.0);
+			root.setPrefHeight(50.0);
 			setGraphic(root);
 		}
 
@@ -179,13 +192,13 @@ public class AlbumController {
 							FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/photo.fxml"));
 					        Parent parent = (Parent) loader.load();
 					        
-					        //AlbumController controller = loader.getController();
-					        //controller.setInfo(user, album);
+					        PhotoController controller = loader.getController();
+					        controller.setInfo(user, album, photo);
 					        
 					        Scene scene = new Scene(parent);
 					        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 					        
-					        //controller.start(stage);
+					        controller.start(stage);
 					        
 					        stage.setScene(scene);
 					        stage.show();

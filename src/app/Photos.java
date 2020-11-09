@@ -28,7 +28,7 @@ public class Photos extends Application {
 		serial.getUserList().add(new User("stock", ""));
 		serial.getUserList().add(new User("admin", ""));
 		Serial.serialize(serial);		
-		 */
+		*/
 		
 		
 		Serial serial = Serial.deserialize();
