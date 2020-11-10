@@ -2,6 +2,7 @@ package models;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import javafx.scene.image.Image;
@@ -14,13 +15,15 @@ public class Photo implements Serializable {
 	
 	private String photoName;
 	private String caption;
+	private Calendar date;
 	private List<Tag> tags;
 	
 	private int width, height;
     private int[][] data;
 	
-	public Photo(Image image, String photoName) {
+	public Photo(Image image, String photoName, Calendar date) {
 		this.photoName = photoName;
+		this.date = date;
 		this.caption = "";
 		this.tags = new ArrayList<Tag>();
 		
@@ -62,7 +65,12 @@ public class Photo implements Serializable {
 	public void setCaption(String caption) {
 		this.caption = caption;
 	}
-
+	
+	public Calendar getDate() {
+		return this.date;
+	}
+	
+	
 	public List<Tag> getTags() {
 		return tags;
 	}
@@ -74,8 +82,24 @@ public class Photo implements Serializable {
 	public void deleteTag(Tag tag) {
 		for(int i = 0; i < tags.size(); i++) {
 			if(tags.get(i).getKey().equals(tag.getKey()) 
-					&& tags.get(i).getValue().equals(tag.getValue())) tags.remove(i);
+					&& tags.get(i).getValue().equals(tag.getValue())) {
+				tags.remove(i);
+				return;
+			}
+			
 		}
+	}
+	
+	public boolean tagDuplicate(Tag tag) {
+		for(int i = 0; i < tags.size(); i++) {
+			if(tags.get(i).getKey().equals(tag.getKey()) 
+					&& tags.get(i).getValue().equals(tag.getValue())) {
+				System.out.println("Duplicate at: " + i);
+				return true;
+			}
+		}
+		
+		return false;
 	}
 	
 }

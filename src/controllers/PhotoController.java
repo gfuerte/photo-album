@@ -2,26 +2,39 @@ package controllers;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Dialog;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Pair;
 import models.Album;
 import models.Photo;
+import models.Tag;
 import models.User;
 
 public class PhotoController {
@@ -32,13 +45,16 @@ public class PhotoController {
 	@FXML
 	Text photoName, photoDate, photoCaption;
 	@FXML
-	TableView<String> tags;
+	TableView<Tag> tagTable;
+	@FXML
+	TableColumn<Tag, String> keyColumn, valueColumn;
 	@FXML 
 	ComboBox<String> copyAlbum, moveAlbum;
 	
 	private User user;
 	private Album album;
 	private Photo photo;
+	private ObservableList<Tag> tags;
 	
 	public void start(Stage mainStage) {
 		imageView.setFitHeight(175.0);
@@ -54,7 +70,7 @@ public class PhotoController {
 		} else {
 			photoCaption.setText("Caption: " + photo.getCaption());
 		}
-		//photoDate.setText(photo.getDate());
+		photoDate.setText(photo.getDate().getTime().toString());
 		
 		ObservableList<String> albumNames = FXCollections.observableArrayList();
 		for(int i = 0; i < user.getAlbums().size(); i++) {
@@ -64,22 +80,135 @@ public class PhotoController {
 		copyAlbum.getSelectionModel().select(0);
 		moveAlbum.getItems().addAll(albumNames);
 		moveAlbum.getSelectionModel().select(0);
-
+		
+		keyColumn.setCellValueFactory(new PropertyValueFactory<>("key"));
+		valueColumn.setCellValueFactory(new PropertyValueFactory<>("value"));
+		
+		tags = FXCollections.observableArrayList(photo.getTags());
+		tagTable.setItems(tags);
+		tagTable.getSelectionModel().selectFirst();
 	}
 	
 	@FXML
 	private void addTag(ActionEvent event) throws IOException {
-		System.out.println("addTag");
+		Dialog<Pair<String, String>> dialog = new Dialog<>();
+	    dialog.setTitle("Add Tag");
+
+	    ButtonType loginButtonType = new ButtonType("OK", ButtonData.OK_DONE);
+	    dialog.getDialogPane().getButtonTypes().addAll(loginButtonType, ButtonType.CANCEL);
+
+	    GridPane gridPane = new GridPane();
+	    gridPane.setHgap(10);
+	    gridPane.setVgap(10);
+	    gridPane.setPadding(new Insets(20, 20, 10, 10));
+
+	    TextField key = new TextField();
+	    TextField value = new TextField();
+
+	    gridPane.add(new Label("Tag Key: "), 0, 0);
+	    gridPane.add(key, 1, 0);
+	    gridPane.add(new Label("Tag Value: "), 0, 1);
+	    gridPane.add(value, 1, 1);
+
+	    dialog.getDialogPane().setContent(gridPane);
+
+	    dialog.setResultConverter(dialogButton -> {
+	        if (dialogButton == loginButtonType) {
+	            return new Pair<>(key.getText(), value.getText());
+	        }
+	        return null;
+	    });
+
+	    Optional<Pair<String, String>> result = dialog.showAndWait();
+
+	    result.ifPresent(pair -> {
+	        Tag tag = new Tag(pair.getKey(), pair.getValue());
+	        if(photo.tagDuplicate(tag)) {
+	        	Alert alert = new Alert(AlertType.ERROR);
+				String content = "Tag Key with Tag Value Already Exist";
+				alert.setContentText(content);
+				alert.showAndWait();
+				return;
+	        } else {
+	        	photo.addTag(tag);
+	        	tags.add(tag);
+	        	tagTable.getSelectionModel().selectLast();
+	        }
+	    });
 	}
 	
 	@FXML
 	private void editTag(ActionEvent event) throws IOException {
-		System.out.println("editTag");
+		if(tags.size() == 0) {
+			Alert alert = new Alert(AlertType.ERROR);
+			String content = "No Tags to be Deleted";
+			alert.setContentText(content);
+			alert.showAndWait();
+			return;
+		}
+		
+		Tag tag = tagTable.getSelectionModel().getSelectedItem();	
+		Dialog<Pair<String, String>> dialog = new Dialog<>();
+	    dialog.setTitle("Edit Tag");
+
+	    ButtonType loginButtonType = new ButtonType("OK", ButtonData.OK_DONE);
+	    dialog.getDialogPane().getButtonTypes().addAll(loginButtonType, ButtonType.CANCEL);
+
+	    GridPane gridPane = new GridPane();
+	    gridPane.setHgap(10);
+	    gridPane.setVgap(10);
+	    gridPane.setPadding(new Insets(20, 20, 10, 10));
+
+	    TextField key = new TextField();
+	    key.setPromptText(tag.getKey());
+	    TextField value = new TextField();
+	    value.setPromptText(tag.getValue());
+
+	    gridPane.add(new Label("Tag Key: "), 0, 0);
+	    gridPane.add(key, 1, 0);
+	    gridPane.add(new Label("Tag Value: "), 0, 1);
+	    gridPane.add(value, 1, 1);
+
+	    dialog.getDialogPane().setContent(gridPane);
+
+	    dialog.setResultConverter(dialogButton -> {
+	        if (dialogButton == loginButtonType) {
+	            return new Pair<>(key.getText(), value.getText());
+	        }
+	        return null;
+	    });
+
+	    Optional<Pair<String, String>> result = dialog.showAndWait();
+
+	    result.ifPresent(pair -> {
+	    	Tag temp = new Tag(pair.getKey(), pair.getValue());
+	        if(photo.tagDuplicate(temp)) {
+	        	Alert alert = new Alert(AlertType.ERROR);
+				String content = "Tag Key with Tag Value Already Exist";
+				alert.setContentText(content);
+				alert.showAndWait();
+				return;
+	        } else {
+	        	tag.setKey(pair.getKey());
+	        	tag.setValue(pair.getValue());
+	        	tagTable.refresh();
+	        }
+	    });
 	}
 	
 	@FXML
 	private void deleteTag(ActionEvent event) throws IOException {
-		System.out.println("deleteTag");
+		if(tags.size() == 0) {
+			Alert alert = new Alert(AlertType.ERROR);
+			String content = "No Tags to be Deleted";
+			alert.setContentText(content);
+			alert.showAndWait();
+			return;
+		}
+		
+		Tag tag = tagTable.getSelectionModel().getSelectedItem();
+		photo.deleteTag(tag);
+		tags.remove(tagTable.getSelectionModel().getSelectedIndex());
 	}
 	
 	@FXML
@@ -188,7 +317,9 @@ public class PhotoController {
 		} else {
 			photoCaption.setText("Caption: " + photo.getCaption());
 		}
-		//photoDate.setText(photo.getDate());
+		photoDate.setText(photo.getDate().getTime().toString());
+		tags = FXCollections.observableArrayList(photo.getTags());
+		tagTable.setItems(tags);
 		imageView.setImage(photo.getImage());
 		centerImage(imageView);
 	}
@@ -202,7 +333,9 @@ public class PhotoController {
 		} else {
 			photoCaption.setText("Caption: " + photo.getCaption());
 		}
-		//photoDate.setText(photo.getDate());
+		photoDate.setText(photo.getDate().getTime().toString());
+		tags = FXCollections.observableArrayList(photo.getTags());
+		tagTable.setItems(tags);
 		imageView.setImage(photo.getImage());
 		centerImage(imageView);
 	}

@@ -2,6 +2,7 @@ package controllers;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 
@@ -75,7 +76,12 @@ public class AlbumController {
 		String photoName = file.getName();
 		Image image = new Image(file.toURI().toString());
 		
-		Photo photo = new Photo(image, photoName);
+		Calendar date = Calendar.getInstance();
+		long millis = file.lastModified();
+		date.setTimeInMillis(millis);
+		date.set(Calendar.MILLISECOND, 0);
+				
+		Photo photo = new Photo(image, photoName, date);
 		album.addPhoto(photo);
 		photos.add(photo);
 		listView.getSelectionModel().selectLast();

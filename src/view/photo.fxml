@@ -20,10 +20,10 @@
       <Text fx:id="photoCaption" layoutX="9.0" layoutY="293.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Photo Caption" textAlignment="CENTER" wrappingWidth="335.0" />
       <Button fx:id="leftArrow" layoutX="8.0" layoutY="245.0" mnemonicParsing="false" onAction="#leftArrow" text="&lt;" />
       <Button fx:id="rightArrow" layoutX="317.0" layoutY="245.0" mnemonicParsing="false" onAction="#rightArrow" text="&gt;" />
-      <TableView fx:id="tags" layoutX="177.0" layoutY="313.0" prefHeight="175.0" prefWidth="167.0">
+      <TableView fx:id="tagTable" layoutX="177.0" layoutY="313.0" prefHeight="175.0" prefWidth="167.0">
         <columns>
-          <TableColumn prefWidth="75.0" text="Tag Name" />
-          <TableColumn prefWidth="75.0" text="Tag Value" />
+          <TableColumn fx:id="keyColumn" prefWidth="75.0" text="Tag Name" />
+          <TableColumn fx:id="valueColumn" prefWidth="75.0" text="Tag Value" />
         </columns>
          <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

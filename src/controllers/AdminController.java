@@ -1,7 +1,6 @@
 package controllers;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -16,19 +15,19 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.text.Text;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.Button;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 import models.User;
 
 public class AdminController {
     @FXML
-    private ListView<User> listView;
+    private TableView<User> userTable;
+    @FXML
+    private TableColumn<User, String> usernameColumn, passwordColumn;
     @FXML
     private TextField addUsernameTF, addUserPasswordTF, deleteUsernameTF, deleteUserPasswordTF;
     @FXML
@@ -37,20 +36,13 @@ public class AdminController {
     List<User> userList = Photos.userList;
 	HashMap<String, User> userMap = Photos.userMap;
 
-	private ObservableList<User> allUsers;
+	private ObservableList<User> users;
     
 	public void start(Stage mainStage) {
-		allUsers = FXCollections.observableArrayList(userList);
-		
-		listView.setCellFactory(new Callback<ListView<User>, ListCell<User>>() {
-			@Override
-			public ListCell<User> call(ListView<User> user) {
-				return new UserCell();
-			}
-		});
-
-		listView.setItems(allUsers);
-		listView.getSelectionModel().select(0);
+		usernameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
+		passwordColumn.setCellValueFactory(new PropertyValueFactory<>("password"));
+		users = FXCollections.observableArrayList(userList);
+		userTable.setItems(users);
     }
 
     @FXML
@@ -74,7 +66,7 @@ public class AdminController {
     	} else {
 	    	User user = new User(userName, userPassword);
 	    	userList.add(user);
-	    	allUsers.add(user);
+	    	users.add(user);
 	    	userMap.put(userName, user);
 	    	Alert alert = new Alert(AlertType.INFORMATION);
 			String s = "Add Succesful";
@@ -112,7 +104,7 @@ public class AdminController {
     		if(user.getUsername().equals(userName) && user.getPassword().equals(userPassword)) {
     			userMap.remove(userName);
     			userList.remove(i);
-    			allUsers.remove(user);
+    			users.remove(user);
     			
     			deleteUsernameTF.setText("");
     	    	deleteUserPasswordTF.setText("");
@@ -138,29 +130,5 @@ public class AdminController {
 		controller.start(stage);
 		stage.setScene(scene);
 		stage.show();
-	}
-    
-    private class UserCell extends ListCell<User> {
-		AnchorPane root = new AnchorPane();
-		Text text = new Text();
-
-		public UserCell() {
-			super();
-			AnchorPane.setLeftAnchor(text, 10.0);
-			AnchorPane.setTopAnchor(text, 0.0);
-			
-			root.getChildren().addAll(text);
-			setGraphic(root);
-		}
-
-		@Override
-		public void updateItem(User user, boolean empty) {
-			super.updateItem(user, empty);
-			if (user == null) {
-				text.setText("");
-			} else {
-				text.setText("Username: " + user.getUsername() + "\n" + "Password: " + user.getPassword());
-			}
-		}
 	}
 }
