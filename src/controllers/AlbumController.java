@@ -129,15 +129,11 @@ public class AlbumController {
 	private void back(ActionEvent event) throws IOException {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/user.fxml"));
 		Parent parent = (Parent) loader.load();
-		
 		UserController controller = loader.getController();
 		controller.setUser(user);
-		
 		Scene scene = new Scene(parent);
 		Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-		
 		controller.start(stage);
-		
 		stage.setScene(scene);
 		stage.show();
 	}

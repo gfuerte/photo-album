@@ -58,13 +58,21 @@ public class UserController {
 
 	@FXML
 	private void search(ActionEvent event) throws IOException {
-		System.out.println("search");
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/search.fxml"));
+		Parent parent = (Parent) loader.load();
+		SearchController controller = loader.getController();
+		controller.setUser(user);
+		Scene scene = new Scene(parent);
+		Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+		controller.start(stage);
+		stage.setScene(scene);
+		stage.show();
 	}
 
 	@FXML
 	private void createAlbum(ActionEvent event) throws IOException {
 		TextInputDialog dialog = new TextInputDialog();
-		dialog.setTitle("Add Album");
+		dialog.setTitle("Create Album");
 		dialog.setContentText("Enter New Album Name:");
 		dialog.setHeaderText(null);
 		dialog.setGraphic(null);
@@ -79,6 +87,16 @@ public class UserController {
 				return;
 			}
 		
+			for(int i = 0; i < user.getAlbums().size(); i++) {
+				if(user.getAlbums().get(i).getAlbumName().equals(dialog.getResult())) {
+					Alert alert = new Alert(AlertType.ERROR);
+					String content = "Album Already Exist";
+					alert.setContentText(content);
+					alert.showAndWait();
+					return;
+				}
+			}
+			
 			Album album = new Album(dialog.getResult());
 			user.addAlbum(album);
 			albums.add(album);

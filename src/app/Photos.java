@@ -24,20 +24,15 @@ public class Photos extends Application {
 		// TODO Auto-generated method stub
 		mainStage = primaryStage;
 		
-		/* 
+		/* Restart data.dat
 		Serial serial = new Serial();
 		serial.getUserList().add(new User("stock", ""));
-		serial.getUserList().add(new User("admin", ""));
 		Serial.serialize(serial);		
 		*/
-		
-		
+
 		Serial serial = Serial.deserialize();
 		userList = serial.getUserList();
 		for(User user : userList) userMap.put(user.getUsername(), user);
-				
-		System.out.println("--All Users--");
-		for(User user : userList) System.out.println("Username: " + user.getUsername() + "\t\tPassword: " + user.getPassword());
 		
 		try {
 			FXMLLoader loader = new FXMLLoader();

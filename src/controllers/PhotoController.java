@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -122,7 +121,7 @@ public class PhotoController {
 	    Optional<Pair<String, String>> result = dialog.showAndWait();
 
 	    result.ifPresent(pair -> {
-	        Tag tag = new Tag(pair.getKey(), pair.getValue());
+	        Tag tag = new Tag(pair.getKey().trim(), pair.getValue().trim());
 	        if(photo.tagDuplicate(tag)) {
 	        	Alert alert = new Alert(AlertType.ERROR);
 				String content = "Tag Key with Tag Value Already Exist";
@@ -189,8 +188,8 @@ public class PhotoController {
 				alert.showAndWait();
 				return;
 	        } else {
-	        	tag.setKey(pair.getKey());
-	        	tag.setValue(pair.getValue());
+	        	tag.setKey(pair.getKey().trim());
+	        	tag.setValue(pair.getValue().trim());
 	        	tagTable.refresh();
 	        }
 	    });
@@ -280,7 +279,6 @@ public class PhotoController {
 		for(int i = 0; i < albums.size(); i++) {
 			Album curAlbum = albums.get(i);
 			if(curAlbum.getAlbumName().equals(moveAlbum.getValue())) {
-				System.out.println(album.getAlbumName() + " " + curAlbum.getAlbumName() + " " + moveAlbum.getValue());
 				curAlbum.addPhoto(photo);
 				album.removePhoto(photo);
 				
@@ -344,15 +342,11 @@ public class PhotoController {
 	private void back(ActionEvent event) throws IOException {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/album.fxml"));
 		Parent parent = (Parent) loader.load();
-		
 		AlbumController controller = loader.getController();
 		controller.setInfo(user, album);
-		
 		Scene scene = new Scene(parent);
 		Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-		
 		controller.start(stage);
-		
 		stage.setScene(scene);
 		stage.show();
 	}
