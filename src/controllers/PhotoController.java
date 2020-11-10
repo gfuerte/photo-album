@@ -228,8 +228,10 @@ public class PhotoController {
 	private void logout(ActionEvent event) throws IOException {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/login.fxml"));
 		Parent parent = (Parent) loader.load();
+		LoginController controller = loader.getController();
 		Scene scene = new Scene(parent);
 		Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+		controller.start(stage);
 		stage.setScene(scene);
 		stage.show();
 	}

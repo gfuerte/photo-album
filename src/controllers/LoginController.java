@@ -13,10 +13,14 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import models.User;
 
 public class LoginController {
+	@FXML
+	private ImageView logo;
 	@FXML
 	private Button login;
 	@FXML
@@ -25,13 +29,24 @@ public class LoginController {
 	List<User> userList = Photos.userList;
 	HashMap<String, User> userMap = Photos.userMap;
 	
+	public void start(Stage mainStage) {
+		Image image = new Image("/images/logo.png");
+		logo.setImage(image);
+	}
+	
 	@FXML
 	private void login(ActionEvent event) throws IOException {		
 		if(username.getText().equals("admin")) {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/admin.fxml"));
 			Parent parent = (Parent) loader.load();
+			
+			AdminController controller = loader.getController();
+			
 			Scene scene = new Scene(parent);
 			Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+			
+			controller.start(stage);
+			
 			stage.setScene(scene);
 			stage.show();
 		} else if(userMap.get(username.getText()) != null){

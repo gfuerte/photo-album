@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
+import controllers.LoginController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -40,9 +41,13 @@ public class Photos extends Application {
 		
 		try {
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(getClass().getResource("/view/login.fxml"));			
+			loader.setLocation(getClass().getResource("/view/login.fxml"));
 			AnchorPane root = loader.load();
-			Scene scene = new Scene(root, 600, 400);
+			
+			LoginController controller = loader.getController();
+			controller.start(primaryStage);
+			
+			Scene scene = new Scene(root, 350, 500);
 			
 			mainStage.setScene(scene);
 			mainStage.setTitle("Photo Album");
