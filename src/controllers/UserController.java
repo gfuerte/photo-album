@@ -29,6 +29,10 @@ import javafx.util.Callback;
 import models.Album;
 import models.User;
 
+/**
+ * @author Greg Fuerte
+ * @author Aries Regalado
+ */
 public class UserController {
 	@FXML
 	ListView<Album> listView;
@@ -40,6 +44,10 @@ public class UserController {
 	private User user;
 	private ObservableList<Album> albums;
 
+	/**
+	 * Initializes listView.
+	 * @param mainStage Main Stage of Application.
+	 */
 	public void start(Stage mainStage) {
 		header.setText(user.getUsername() + "'s Albums");
 		List<Album> list = user.getAlbums();
@@ -56,6 +64,11 @@ public class UserController {
 		listView.getSelectionModel().select(0);
 	}
 
+	/**
+	 * Redirects to search page.
+	 * @param event Pressed Search button.
+	 * @throws IOException
+	 */
 	@FXML
 	private void search(ActionEvent event) throws IOException {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/search.fxml"));
@@ -69,6 +82,11 @@ public class UserController {
 		stage.show();
 	}
 
+	/**
+	 * Given user input, creates a new album with given name.
+	 * @param event Pressed Create Album button.
+	 * @throws IOException
+	 */
 	@FXML
 	private void createAlbum(ActionEvent event) throws IOException {
 		TextInputDialog dialog = new TextInputDialog();
@@ -104,6 +122,11 @@ public class UserController {
 		}
 	}
 
+	/**
+	 * Given selected album, deletes album from album list.
+	 * @param event Pressed Delete Album button.
+	 * @throws IOException
+	 */
 	@FXML
 	private void deleteAlbum(ActionEvent event) throws IOException {
 		Alert alert;
@@ -127,6 +150,11 @@ public class UserController {
 		}
 	}
 
+	/**
+	 * Given user input, renames album to given input.
+	 * @param event Pressed Rename Album button.
+	 * @throws IOException
+	 */
 	@FXML
 	private void renameAlbum(ActionEvent event) throws IOException {
 		if(albums.size() == 0) {
@@ -164,6 +192,11 @@ public class UserController {
 		}
 	}
 
+	/**
+	 * Redirects user to the login page.
+	 * @param event Pressed Logout button.
+	 * @throws IOException
+	 */
 	@FXML
 	private void logout(ActionEvent event) throws IOException {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/login.fxml"));
@@ -176,6 +209,11 @@ public class UserController {
 		stage.show();
 	}
 
+	/**
+	 * Customized cell for User Page listView
+	 * @author Greg Fuerte
+	 * @author Aries Regalado
+	 */
 	private class AlbumCell extends ListCell<Album> {
 		AnchorPane root = new AnchorPane();
 		Button select = new Button("Select");
@@ -245,6 +283,10 @@ public class UserController {
 		}
 	}
 
+	/**
+	 * Sets this user to the given input.
+	 * @param user Current User.
+	 */
 	public void setUser(User user) {
 		this.user = user;
 	}

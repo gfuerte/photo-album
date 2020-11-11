@@ -13,6 +13,10 @@ import javafx.stage.Stage;
 import models.Serial;
 import models.User;
 
+/**
+ * @author Greg Fuerte
+ * @author Aries Regalado
+ */
 public class Photos extends Application {
 
 	Stage mainStage;

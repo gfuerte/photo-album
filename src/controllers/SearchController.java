@@ -35,6 +35,10 @@ import models.Photo;
 import models.Tag;
 import models.User;
 
+/**
+ * @author Greg Fuerte
+ * @author Aries Regalado
+ */
 public class SearchController {
 	@FXML
 	ListView<Photo> listView;
@@ -50,6 +54,10 @@ public class SearchController {
 	private User user;
 	private ObservableList<Photo> photos;
 	
+	/**
+	 * Initializes listView and comboBox
+	 * @param mainStage Main Stage of Application.
+	 */
 	public void start(Stage mainStage) {
 		junction.getItems().addAll("AND", "OR");
 		junction.getSelectionModel().select("AND");
@@ -67,6 +75,11 @@ public class SearchController {
 		listView.getSelectionModel().select(0);
 	}
 	
+	/**
+	 * Given different combinations of inputs, returns the photos that fits the criteria of the inputs.
+	 * @param event Pressed Search button.
+	 * @throws IOException
+	 */
 	@FXML
 	private void search(ActionEvent event) throws IOException {
 		String tag1 = tagKey1.getText().trim();
@@ -270,6 +283,11 @@ public class SearchController {
 		}
 	}
 	
+	/**
+	 * Creates a new album from the given search result photos.
+	 * @param event Pressed Create Album button.
+	 * @throws IOException
+	 */
 	@FXML
 	private void create(ActionEvent event) throws IOException {
 		if(photos.size() == 0) {
@@ -330,6 +348,11 @@ public class SearchController {
 		}
 	}
 	
+	/**
+	 * Redirects user to the previous page.
+	 * @param event Pressed Back button.
+	 * @throws IOException
+	 */
 	@FXML
 	private void back(ActionEvent event) throws IOException {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/user.fxml"));
@@ -343,6 +366,11 @@ public class SearchController {
 		stage.show();
 	}
 	
+	/**
+	 * Redirects user to the login page.
+	 * @param event Pressed Logout button.
+	 * @throws IOException
+	 */
 	@FXML
 	private void logout(ActionEvent event) throws IOException {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/login.fxml"));
@@ -355,6 +383,11 @@ public class SearchController {
 		stage.show();
 	}
 	
+	/**
+	 * Customized cell for Search Page listView
+	 * @author Greg Fuerte
+	 * @author Aries Regalado
+	 */
 	private class PhotoCell extends ListCell<Photo> {
 		AnchorPane root = new AnchorPane();
 		Text photoName = new Text();
@@ -377,7 +410,7 @@ public class SearchController {
 			root.setPrefHeight(100.0);
 			setGraphic(root);
 		}
-
+		
 		@Override
 		public void updateItem(Photo photo, boolean empty) {
 			super.updateItem(photo, empty);
@@ -391,6 +424,10 @@ public class SearchController {
 		}
 	}
 	
+	/**
+	 * Sets this user to the given input.
+	 * @param user Current User.
+	 */
 	public void setUser(User user) {
 		this.user = user;
 	}

@@ -23,6 +23,10 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import models.User;
 
+/**
+ * @author Greg Fuerte
+ * @author Aries Regalado
+ */
 public class AdminController {
     @FXML
     private TableView<User> userTable;
@@ -38,6 +42,10 @@ public class AdminController {
 
 	private ObservableList<User> users;
     
+	/**
+	 * Initializes tableView.
+	 * @param mainStage Main Stage of Application.
+	 */
 	public void start(Stage mainStage) {
 		usernameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
 		passwordColumn.setCellValueFactory(new PropertyValueFactory<>("password"));
@@ -45,6 +53,10 @@ public class AdminController {
 		userTable.setItems(users);
     }
 
+	/**
+	 * Given admin input, adds new user to the user list.
+	 * @param event Pressed Add User button.
+	 */
     @FXML
     void addUserButtonAction(ActionEvent event) {
     	String userName = addUsernameTF.getText();
@@ -77,6 +89,10 @@ public class AdminController {
 		addUserPasswordTF.setText("");
     }
 
+    /**
+     * Given admin input, deletes user from user list.
+     * @param event Pressed Delete User button.
+     */
     @FXML
     void deleteUserButtonAction(ActionEvent event) {
     	String userName = deleteUsernameTF.getText();
@@ -120,6 +136,11 @@ public class AdminController {
 
     }
     
+    /**
+	 * Redirects admin to the login page.
+	 * @param event Pressed Logout button.
+	 * @throws IOException
+	 */
     @FXML
 	private void logout(ActionEvent event) throws IOException {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/login.fxml"));

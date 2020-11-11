@@ -4,6 +4,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author Greg Fuerte
+ * @author Aries Regalado
+ */
 public class Album implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
@@ -17,19 +21,35 @@ public class Album implements Serializable {
 		this.photoCount = 0;
 	}
 
+	/**
+	 * Returns this album name.
+	 * @return String value of this album name.
+	 */
 	public String getAlbumName() {
 		return this.name;
 	}
 
+	/**
+	 * Sets album name to name parameter.
+	 * @param name Sets this album name to name.
+	 */
 	public void setName(String name) {
 		this.name = name;
 	}
 	
+	/**
+	 * Adds photo to this album.
+	 * @param photo Photo to be added.
+	 */
 	public void addPhoto(Photo photo) {
 		this.photos.add(photo);
 		this.photoCount++;
 	}
 	
+	/**
+	 * Removes photo from this album.
+	 * @param photo Photo to be removed.
+	 */
 	public void removePhoto(Photo photo) {
 		for(int i = 0; i < photos.size(); i++) {
 			if(photos.get(i).getPhotoName().equals(photo.getPhotoName())) {
@@ -40,18 +60,27 @@ public class Album implements Serializable {
 		this.photoCount--;
 	}
 
+	/**
+	 * Returns this album's photo count.
+	 * @return int value of photo count.
+	 */
 	public int getPhotoCount() {
 		return photoCount;
 	}
-
-	public void setPhotoCount(int photoCount) {
-		this.photoCount = photoCount;
-	}
 	
+	/**
+	 * Returns this album's photos.
+	 * @return List Photo field of this album's photos.
+	 */
 	public List<Photo> getPhotos() {
 		return this.photos;
 	}
 	
+	/**
+	 * Given photo parameter, returns the next photo in the album.
+	 * @param photo Photo that is previous to the desired photo.
+	 * @return Photo object of the next photo in the album.
+	 */
 	public Photo getNextPhoto(Photo photo) {
 		for(int i = 0; i < photos.size(); i++) {
 			if(photos.get(i).getPhotoName().equals(photo.getPhotoName())) {
@@ -65,6 +94,11 @@ public class Album implements Serializable {
 		return photo;
 	}
 	
+	/**
+	 * Given photo parameter, returns the previous photo in the album.
+	 * @param photo Photo that is next to the desired photo.
+	 * @return Photo object of the previous photo in the album.
+	 */
 	public Photo getPrevPhoto(Photo photo) {
 		for(int i = 0; i < photos.size(); i++) {
 			if(photos.get(i).getPhotoName().equals(photo.getPhotoName())) {

@@ -20,6 +20,10 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import models.User;
 
+/**
+ * @author Greg Fuerte
+ * @author Aries Regalado
+ */
 public class LoginController {
 	@FXML
 	private ImageView logo;
@@ -31,11 +35,20 @@ public class LoginController {
 	List<User> userList = Photos.userList;
 	HashMap<String, User> userMap = Photos.userMap;
 	
+	/**
+	 * Initializes image view with logo.png
+	 * @param mainStage Main Stage of Application.
+	 */
 	public void start(Stage mainStage) {
 		Image image = new Image("/images/logo.png");
 		logo.setImage(image);
 	}
 	
+	/**
+	 * Redirects user to either admin page or login page based on inputted username and password.
+	 * @param event Pressed login button.
+	 * @throws IOException
+	 */
 	@FXML
 	private void login(ActionEvent event) throws IOException {		
 		if(username.getText().equals("admin")) {

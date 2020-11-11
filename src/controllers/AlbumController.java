@@ -34,6 +34,10 @@ import models.Album;
 import models.Photo;
 import models.User;
 
+/**
+ * @author Greg Fuerte
+ * @author Aries Regalado
+ */
 public class AlbumController {
 	@FXML
 	ListView<Photo> listView;
@@ -47,6 +51,11 @@ public class AlbumController {
 	private ObservableList<Photo> photos;
 	
 	Stage stage;
+	
+	/**
+	 * Initializes listView of Photos.
+	 * @param mainStage Main Stage of Application.
+	 */
 	public void start(Stage mainStage) {
 		stage = mainStage;
 		header.setText(album.getAlbumName());
@@ -65,6 +74,11 @@ public class AlbumController {
 		
 	}
 	
+	/**
+	 * Given selected image, adds photo to the user's album.
+	 * @param event Pressed Add Photo button.
+	 * @throws IOException
+	 */
 	@FXML
 	private void addPhoto(ActionEvent event) throws IOException {
 		FileChooser chooser = new FileChooser();
@@ -87,6 +101,11 @@ public class AlbumController {
 		listView.getSelectionModel().selectLast();
 	}
 	
+	/**
+	 * Given selected photo, deletes photo from the user's album.
+	 * @param event Pressed Delete Photo button.
+	 * @throws IOException
+	 */
 	@FXML
 	private void deletePhoto(ActionEvent event) throws IOException {
 		Alert alert;
@@ -110,6 +129,11 @@ public class AlbumController {
 		}
 	}
 	
+	/**
+	 * Given user input, captions the current photo.
+	 * @param event Pressed Caption Photo button
+	 * @throws IOException
+	 */
 	@FXML
 	private void captionPhoto(ActionEvent event) throws IOException {
 		Photo photo = listView.getSelectionModel().getSelectedItem();
@@ -125,6 +149,11 @@ public class AlbumController {
 		}
 	}
 	
+	/**
+	 * Redirects user to the previous page.
+	 * @param event Pressed Back button.
+	 * @throws IOException
+	 */
 	@FXML
 	private void back(ActionEvent event) throws IOException {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/user.fxml"));
@@ -138,6 +167,11 @@ public class AlbumController {
 		stage.show();
 	}
 	
+	/**
+	 * Redirects user to the login page.
+	 * @param event Pressed Logout button.
+	 * @throws IOException
+	 */
 	@FXML
 	private void logout(ActionEvent event) throws IOException {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/login.fxml"));
@@ -150,6 +184,11 @@ public class AlbumController {
 		stage.show();
 	}
 	
+	/**
+	 * Customized cell for Album Page listView
+	 * @author Greg Fuerte
+	 * @author Aries Regalado
+	 */
 	private class PhotoCell extends ListCell<Photo> {
 		AnchorPane root = new AnchorPane();
 		Text photoName = new Text();
@@ -213,6 +252,11 @@ public class AlbumController {
 		}
 	}
 	
+	/**
+	 * Sets this user and album to the given input.
+	 * @param user Current User.
+	 * @param album Current Album.
+	 */
 	public void setInfo(User user, Album album) {
 		this.user = user;
 		this.album = album;

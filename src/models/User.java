@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class User implements Serializable, Comparable<User> {
+public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private String username;
@@ -17,26 +17,34 @@ public class User implements Serializable, Comparable<User> {
 		this.albums = new ArrayList<Album>();
 	}
 
+	/**
+	 * Returns this User's username.
+	 * @return String value of username field.
+	 */
 	public String getUsername() {
 		return username;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
+	/**
+	 * Returns this User's password.
+	 * @return String value of password field.
+	 */
 	public String getPassword() {
 		return password;
 	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
 	
+	/**
+	 * Adds a new album to user's album list.
+	 * @param album New album to be added.
+	 */
 	public void addAlbum(Album album) {
 		albums.add(album);
 	}
 	
+	/**
+	 * Deletes album to user's album list.
+	 * @param name Album to be deleted.
+	 */
 	public void deleteAlbum(String name) {
 		for(int i = 0; i < albums.size(); i++) {
 			if(albums.get(i).getAlbumName().equals(name)) {
@@ -46,19 +54,11 @@ public class User implements Serializable, Comparable<User> {
 		}
 	}
 	
+	/**
+	 * Returns this User's albums.
+	 * @return Array list value of albums.
+	 */
 	public List<Album> getAlbums() {
 		return albums;
-	}
-	
-	@Override
-	public int compareTo(User user) {
-		if(this.username.equals(user.getUsername())) {
-			return this.password.compareTo(user.getPassword());
-		}
-		return this.username.compareTo(user.getUsername());
-	}
-	
-	public String toString() {
-		return this.username + " " + this.password;
 	}
 }

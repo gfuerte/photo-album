@@ -36,6 +36,10 @@ import models.Photo;
 import models.Tag;
 import models.User;
 
+/**
+ * @author Greg Fuerte
+ * @author Aries Regalado
+ */
 public class PhotoController {
 	@FXML
 	ImageView imageView;
@@ -55,6 +59,10 @@ public class PhotoController {
 	private Photo photo;
 	private ObservableList<Tag> tags;
 	
+	/**
+	 * Initializes imageView, tableView, and comboBox
+	 * @param mainStage Main Stage of Application.
+	 */
 	public void start(Stage mainStage) {
 		imageView.setFitHeight(175.0);
 		imageView.setFitWidth(335.0);
@@ -88,6 +96,11 @@ public class PhotoController {
 		tagTable.getSelectionModel().selectFirst();
 	}
 	
+	/**
+	 * Given user input, adds new tag to the current photo.
+	 * @param event Pressed Add Tag button.
+	 * @throws IOException
+	 */
 	@FXML
 	private void addTag(ActionEvent event) throws IOException {
 		Dialog<Pair<String, String>> dialog = new Dialog<>();
@@ -136,6 +149,11 @@ public class PhotoController {
 	    });
 	}
 	
+	/**
+	 * Given user input, edits the current tag in the photo.
+	 * @param event Pressed Edit Tag button.
+	 * @throws IOException
+	 */
 	@FXML
 	private void editTag(ActionEvent event) throws IOException {
 		if(tags.size() == 0) {
@@ -195,6 +213,11 @@ public class PhotoController {
 	    });
 	}
 	
+	/**
+	 * Given user input, deletes current selected tag.
+	 * @param event Pressed Delete Tag button.
+	 * @throws IOException
+	 */
 	@FXML
 	private void deleteTag(ActionEvent event) throws IOException {
 		if(tags.size() == 0) {
@@ -210,6 +233,11 @@ public class PhotoController {
 		tags.remove(tagTable.getSelectionModel().getSelectedIndex());
 	}
 	
+	/**
+	 * Copies current photo to selected album.
+	 * @param event Pressed Copy To button.
+	 * @throws IOException
+	 */
 	@FXML
 	private void copyTo(ActionEvent event) throws IOException {
 		List<Album> albums = user.getAlbums();
@@ -255,6 +283,11 @@ public class PhotoController {
 		alert.showAndWait();
 	}
 	
+	/**
+	 * Moves current photo to selected album. Redirects to album page afterwards.
+	 * @param event Pressed Move To button.
+	 * @throws IOException
+	 */
 	@FXML
 	private void moveTo(ActionEvent event) throws IOException {
 		List<Album> albums = user.getAlbums();
@@ -306,6 +339,11 @@ public class PhotoController {
 		}
 	}
 	
+	/**
+	 * Displays the previous photo in the album.
+	 * @param event Pressed left arrow button.
+	 * @throws IOException
+	 */
 	@FXML
 	private void leftArrow(ActionEvent event) throws IOException {
 		this.photo = album.getPrevPhoto(photo);
@@ -322,6 +360,11 @@ public class PhotoController {
 		centerImage(imageView);
 	}
 	
+	/**
+	 * Displays the next photo in the album.
+	 * @param event Pressed right arrow button.
+	 * @throws IOException
+	 */
 	@FXML
 	private void rightArrow(ActionEvent event) throws IOException {
 		this.photo = album.getNextPhoto(photo);
@@ -338,6 +381,11 @@ public class PhotoController {
 		centerImage(imageView);
 	}
 	
+	/**
+	 * Redirects user to the previous page.
+	 * @param event Pressed Back button.
+	 * @throws IOException
+	 */
 	@FXML
 	private void back(ActionEvent event) throws IOException {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/album.fxml"));
@@ -351,6 +399,11 @@ public class PhotoController {
 		stage.show();
 	}
 	
+	/**
+	 * Redirects user to the login page.
+	 * @param event Pressed Logout button.
+	 * @throws IOException
+	 */
 	@FXML
 	private void logout(ActionEvent event) throws IOException {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/login.fxml"));
@@ -363,6 +416,10 @@ public class PhotoController {
 		stage.show();
 	}
 	
+	/**
+	 * Centers the current image in the imageView.
+	 * @param imageView ImageView in the fxml.
+	 */
 	public static void centerImage(ImageView imageView) {
         Image image = imageView.getImage();
         if (image != null) {
@@ -378,6 +435,12 @@ public class PhotoController {
         }
     }
 	
+	/**
+	 * Sets this user, album, photo to the given input.
+	 * @param user Current User.
+	 * @param album Current Album.
+	 * @param photo Current Photo.
+	 */
 	public void setInfo(User user, Album album, Photo photo) {
 		this.user = user;
 		this.album = album;

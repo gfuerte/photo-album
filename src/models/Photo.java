@@ -10,6 +10,10 @@ import javafx.scene.image.PixelReader;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
 
+/**
+ * @author Greg Fuerte
+ * @author Aries Regalado
+ */
 public class Photo implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
@@ -20,7 +24,7 @@ public class Photo implements Serializable {
 	
 	private int width, height;
     private int[][] data;
-	
+
 	public Photo(Image image, String photoName, Calendar date) {
 		this.photoName = photoName;
 		this.date = date;
@@ -39,6 +43,10 @@ public class Photo implements Serializable {
         }
 	}
 	
+	/**
+	 * Returns this Photo's Image.
+	 * @return Image value of this Photo's image.
+	 */
 	public Image getImage() {
 		WritableImage image = new WritableImage(width, height);
         PixelWriter writer = image.getPixelWriter();
@@ -50,35 +58,58 @@ public class Photo implements Serializable {
         return image;
 	}
 
+	/**
+	 * Returns this photo's name.
+	 * @return String value of photo name.
+	 */
 	public String getPhotoName() {
 		return photoName;
 	}
 
-	public void setPhotoName(String photoName) {
-		this.photoName = photoName;
-	}
-
+	/**
+	 * Returns this photo's caption.
+	 * @return String value of photo caption.
+	 */
 	public String getCaption() {
 		return caption;
 	}
 
+	/**
+	 * Set this photo's caption to parameter.
+	 * @param caption Desired new caption of photo.
+	 */
 	public void setCaption(String caption) {
 		this.caption = caption;
 	}
 	
+	/**
+	 * Returns this photo's current date.
+	 * @return Calendar value of photo date.
+	 */
 	public Calendar getDate() {
 		return this.date;
 	}
 	
-	
+	/**
+	 * Returns this photo's list of tags.
+	 * @return Arraylist value of tags.
+	 */
 	public List<Tag> getTags() {
 		return tags;
 	}
 
+	/**
+	 * Adds a tag to this photo's list of tags.
+	 * @param tag Desired tag to be added.
+	 */
 	public void addTag(Tag tag) {
 		tags.add(tag);
 	}
 	
+	/**
+	 * Removes a tag to this photo's list of tags.
+	 * @param tag Desired tag to be removed.
+	 */
 	public void deleteTag(Tag tag) {
 		for(int i = 0; i < tags.size(); i++) {
 			if(tags.get(i).getKey().equals(tag.getKey()) 
@@ -90,6 +121,11 @@ public class Photo implements Serializable {
 		}
 	}
 	
+	/**
+	 * Checks if a tag is already present in this photo's list of tags.
+	 * @param tag Tag that is to be checked in the list.
+	 * @return Returns true if the tag is already present, false otherwise.
+	 */
 	public boolean tagDuplicate(Tag tag) {
 		for(int i = 0; i < tags.size(); i++) {
 			if(tags.get(i).getKey().equals(tag.getKey()) 
