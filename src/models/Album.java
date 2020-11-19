@@ -2,6 +2,7 @@ package models;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -110,5 +111,35 @@ public class Album implements Serializable {
 			}
 		}
 		return photo;
+	}
+	
+	/**
+	 * Returns the earliest date of all the photos in the album.
+	 * @return Calendar object of the earliest date.
+	 */
+	public Calendar getEarliestDate() {
+		if(photos.size() == 0) return null;
+		Calendar date = photos.get(0).getDate();
+		for(int i = 1; i < photos.size(); i++) {
+			if(photos.get(i).getDate().before(date)) {
+				date = photos.get(i).getDate();
+			}
+		}
+		return date;
+	}
+	
+	/**
+	 * Returns the latest date of all the photos in the album.
+	 * @return Calendar object of the latest date.
+	 */
+	public Calendar getLatestDate() {
+		if(photos.size() == 0) return null;
+		Calendar date = photos.get(0).getDate();
+		for(int i = 1; i < photos.size(); i++) {
+			if(photos.get(i).getDate().after(date)) {
+				date = photos.get(i).getDate();
+			}
+		}
+		return date;
 	}
 }

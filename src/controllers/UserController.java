@@ -1,6 +1,7 @@
 package controllers;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,11 +36,11 @@ import models.User;
  */
 public class UserController {
 	@FXML
-	ListView<Album> listView;
+	private ListView<Album> listView;
 	@FXML
-	Text header;
+	private Text header;
 	@FXML
-	Button logout, search, createAlbum, deleteAlbum, renameAlbum;
+	private Button logout, search, createAlbum, deleteAlbum, renameAlbum;
 
 	private User user;
 	private ObservableList<Album> albums;
@@ -56,7 +57,7 @@ public class UserController {
 		listView.setCellFactory(new Callback<ListView<Album>, ListCell<Album>>() {
 			@Override
 			public ListCell<Album> call(ListView<Album> album) {
-				return new AlbumCell();
+				return new UserCell();
 			}
 		});
 
@@ -214,27 +215,36 @@ public class UserController {
 	 * @author Greg Fuerte
 	 * @author Aries Regalado
 	 */
-	private class AlbumCell extends ListCell<Album> {
+	private class UserCell extends ListCell<Album> {
 		AnchorPane root = new AnchorPane();
 		Button select = new Button("Select");
 		Text albumName = new Text();
 		Text photoCount = new Text();
+		Text earliestDate = new Text();
+		Text latestDate = new Text();
 
-		public AlbumCell() {
+		public UserCell() {
 			super();
 			AnchorPane.setLeftAnchor(albumName, 15.0);
-			AnchorPane.setTopAnchor(albumName, 6.0);
+			AnchorPane.setTopAnchor(albumName, 17.5);
 			
-			AnchorPane.setLeftAnchor(photoCount, 145.0);
-			AnchorPane.setTopAnchor(photoCount, 4.5);
+			AnchorPane.setLeftAnchor(photoCount, 95.0);
+			AnchorPane.setTopAnchor(photoCount, 2.5);
+			
+			AnchorPane.setLeftAnchor(earliestDate, 95.0);
+			AnchorPane.setTopAnchor(earliestDate, 17.5);
+			
+			AnchorPane.setLeftAnchor(latestDate, 95.0);
+			AnchorPane.setTopAnchor(latestDate, 32.5);
 			
 			AnchorPane.setRightAnchor(select, 15.0);
-			AnchorPane.setTopAnchor(select, 0.0);
+			AnchorPane.setTopAnchor(select, 14.0);
 			
 			Font font = Font.font("Arial", FontWeight.BOLD, 12.0);
 			albumName.setFont(font);
 			
-			root.getChildren().addAll(albumName, photoCount, select);
+			root.getChildren().addAll(albumName, photoCount, earliestDate, latestDate, select);
+			root.setPrefHeight(50.0);
 			setGraphic(root);
 		}
 
@@ -244,6 +254,8 @@ public class UserController {
 			if (album == null) {
 				albumName.setText("");
 				photoCount.setText("");
+				earliestDate.setText("");
+				latestDate.setText("");
 				select.setVisible(false);
 			} else {
 				if(album.getAlbumName().length() > 13) {
@@ -256,6 +268,16 @@ public class UserController {
 					photoCount.setText(Integer.toString(album.getPhotoCount()) + " Photo");
 				} else {
 					photoCount.setText(Integer.toString(album.getPhotoCount()) + " Photos");
+				}
+				
+				SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
+				
+				if(album.getPhotoCount() == 0) {
+					earliestDate.setText("(Earliest Date)");
+					latestDate.setText("(Latest Date)");
+				} else {
+					earliestDate.setText("Earliest Date: " + format.format(album.getEarliestDate().getTime()));
+					latestDate.setText("Latest Date: " + format.format(album.getLatestDate().getTime()));
 				}
 				
 				select.setVisible(true);

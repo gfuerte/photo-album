@@ -2,7 +2,6 @@ package controllers;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 
 import app.Photos;
 import javafx.event.ActionEvent;
@@ -32,8 +31,7 @@ public class LoginController {
 	@FXML
 	private TextField username, password;
 	
-	List<User> userList = Photos.userList;
-	HashMap<String, User> userMap = Photos.userMap;
+	private HashMap<String, User> userMap = Photos.userMap;
 	
 	/**
 	 * Initializes image view with logo.png

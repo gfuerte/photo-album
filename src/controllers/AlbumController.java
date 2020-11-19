@@ -40,17 +40,17 @@ import models.User;
  */
 public class AlbumController {
 	@FXML
-	ListView<Photo> listView;
+	private ListView<Photo> listView;
 	@FXML
-	Text header;
+	private Text header;
 	@FXML
-	Button addPhoto, deletePhoto, captionPhoto, back, logout;
+	private Button addPhoto, deletePhoto, captionPhoto, back, logout;
 	
 	private User user;
 	private Album album;
 	private ObservableList<Photo> photos;
 	
-	Stage stage;
+	private Stage stage;
 	
 	/**
 	 * Initializes listView of Photos.
@@ -65,7 +65,7 @@ public class AlbumController {
 		listView.setCellFactory(new Callback<ListView<Photo>, ListCell<Photo>>() {
 			@Override
 			public ListCell<Photo> call(ListView<Photo> album) {
-				return new PhotoCell();
+				return new AlbumCell();
 			}
 		});
 		
@@ -189,13 +189,13 @@ public class AlbumController {
 	 * @author Greg Fuerte
 	 * @author Aries Regalado
 	 */
-	private class PhotoCell extends ListCell<Photo> {
+	private class AlbumCell extends ListCell<Photo> {
 		AnchorPane root = new AnchorPane();
 		Text photoName = new Text();
 		ImageView image = new ImageView();
 		Button view = new Button("View");
 
-		public PhotoCell() {
+		public AlbumCell() {
 			super();
 			AnchorPane.setLeftAnchor(photoName, 60.0);
 			AnchorPane.setTopAnchor(photoName, 17.5);

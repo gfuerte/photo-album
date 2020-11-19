@@ -41,15 +41,15 @@ import models.User;
  */
 public class SearchController {
 	@FXML
-	ListView<Photo> listView;
+	private ListView<Photo> listView;
 	@FXML
-	Button search, create, back, logout;
+	private Button search, create, back, logout;
 	@FXML
-	DatePicker fromDate, toDate;
+	private DatePicker fromDate, toDate;
 	@FXML
-	TextField tagKey1, tagValue1, tagKey2, tagValue2;
+	private TextField tagKey1, tagValue1, tagKey2, tagValue2;
 	@FXML
-	ComboBox<String> junction;
+	private ComboBox<String> junction;
 	
 	private User user;
 	private ObservableList<Photo> photos;

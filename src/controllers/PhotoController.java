@@ -42,17 +42,17 @@ import models.User;
  */
 public class PhotoController {
 	@FXML
-	ImageView imageView;
+	private ImageView imageView;
 	@FXML
-	Button addTag, editTag, deleteTag, copyTo, moveTo, leftArrow, rightArrow, back, logout;
+	private Button addTag, editTag, deleteTag, copyTo, moveTo, leftArrow, rightArrow, back, logout;
 	@FXML
-	Text photoName, photoDate, photoCaption;
+	private Text photoName, photoDate, photoCaption;
 	@FXML
-	TableView<Tag> tagTable;
+	private TableView<Tag> tagTable;
 	@FXML
-	TableColumn<Tag, String> keyColumn, valueColumn;
+	private TableColumn<Tag, String> keyColumn, valueColumn;
 	@FXML 
-	ComboBox<String> copyAlbum, moveAlbum;
+	private ComboBox<String> copyAlbum, moveAlbum;
 	
 	private User user;
 	private Album album;

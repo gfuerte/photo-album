@@ -37,8 +37,8 @@ public class AdminController {
     @FXML
     private Button addUserButton, deleteUserButton;
 
-    List<User> userList = Photos.userList;
-	HashMap<String, User> userMap = Photos.userMap;
+    private List<User> userList = Photos.userList;
+    private HashMap<String, User> userMap = Photos.userMap;
 
 	private ObservableList<User> users;
     
@@ -58,7 +58,7 @@ public class AdminController {
 	 * @param event Pressed Add User button.
 	 */
     @FXML
-    void addUserButtonAction(ActionEvent event) {
+    private void addUserButtonAction(ActionEvent event) {
     	String userName = addUsernameTF.getText();
     	String userPassword = addUserPasswordTF.getText();
     	
@@ -94,7 +94,7 @@ public class AdminController {
      * @param event Pressed Delete User button.
      */
     @FXML
-    void deleteUserButtonAction(ActionEvent event) {
+    private void deleteUserButtonAction(ActionEvent event) {
     	String userName = deleteUsernameTF.getText();
     	String userPassword = deleteUserPasswordTF.getText();
     	
